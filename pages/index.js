@@ -1,8 +1,20 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import { useState } from "react";
+import SignUp from "../components/auth/SignUp";
+
+
 
 export default function Home() {
+  const [email, setEmail] = useState();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +24,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        
+        <SignUp />
       </main>
 
       <footer className={styles.footer}>
@@ -21,12 +33,12 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
+  );
 }
