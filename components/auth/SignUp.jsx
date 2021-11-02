@@ -30,7 +30,7 @@ const SignUp = () => {
         const token = credential.accessToken;
         const user = res.user;
         console.log(user);
-        router.push("/test");
+        router.push("/main/upload");
       })
       .catch((error) => {
         const errorCode = error.code;

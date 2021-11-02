@@ -1,7 +1,9 @@
+import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,13 +15,10 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
+initializeApp(firebaseConfig);
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
-export const auth = getAuth();
-
-console.log(auth);
 // const analytics = getAnalytics(app);
 
 // Get a list of cities from your database
