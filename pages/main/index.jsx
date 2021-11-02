@@ -37,7 +37,7 @@ export default function MainIndex() {
       <div className="fullPageScroll">
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute p-2 w-full  bg-gray-900 bg-opacity-50">
+            <div className="absolute p-1 w-full bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-2">
                 <Image
                   src={icon2}
@@ -50,7 +50,7 @@ export default function MainIndex() {
                   <p className="font-bold font-lg">山田花子</p>
                   <div className="flex">
                     <button
-                      className="hover:bg-yellow-700 font-bold py-1 px-1 rounded mt-2"
+                      className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
                       style={{ color: "#f00a00", border: "2px solid #f00a00" }}
                     >
                       フォローする
@@ -115,7 +115,7 @@ export default function MainIndex() {
                 </div>
               </div>
               <p className="w-full text-xs">@原宿　ビーガンじゃんがら</p>
-              <p className="w-full py-4">
+              <p className="w-full p-2">
                 鉄板まま出てくるので、熱々の状態で食べることができます。
                 ビーガンミートで、体にもよく、オススメです！
               </p>
@@ -137,7 +137,7 @@ export default function MainIndex() {
         </section>
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute p-2 w-full  bg-gray-900 bg-opacity-50">
+            <div className="absolute p-1 w-full  bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-1">
                 <Image
                   src={icon}
@@ -150,7 +150,7 @@ export default function MainIndex() {
                   <p className="font-bold font-lg">鈴木拓也</p>
                   <div className="flex">
                     <button
-                      className="hover:bg-yellow-700 font-bold py-1 px-1 rounded mt-2"
+                      className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
                       style={{ color: "#f00a00", border: "2px solid #f00a00" }}
                     >
                       フォローする
@@ -215,7 +215,7 @@ export default function MainIndex() {
                 </div>
               </div>
               <p className="w-full text-xs">@新宿　エルボラーちょ</p>
-              <p className="w-full py-4">
+              <p className="w-full p-2">
                 メキシコ料理をリーズナブルに食べられる。
                 味の濃いジャンバラヤで酒が進む。
               </p>
@@ -237,7 +237,7 @@ export default function MainIndex() {
         </section>
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute p-2 w-full  bg-gray-900 bg-opacity-50">
+            <div className="absolute p-1 w-full  bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-1">
                 <Image
                   src={icon}
@@ -316,7 +316,7 @@ export default function MainIndex() {
               </div>
               <p className="w-full text-xs">＠銀座　かつ吉</p>
 
-              <p className="w-full py-4">
+              <p className="w-full p-2">
                 三元豚の分厚いヒレカツを、カツ丼でいただきました♪
                 お肉が柔らかく、薄味の出汁によく合います。豚汁も嬉しい。
               </p>
@@ -338,7 +338,7 @@ export default function MainIndex() {
         </section>
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute p-2 w-full  bg-gray-900 bg-opacity-50">
+            <div className="absolute p-1 w-full  bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-2">
                 <Image
                   src={icon}
@@ -351,7 +351,7 @@ export default function MainIndex() {
                   <p className="font-bold font-lg">斎藤理恵</p>
                   <div className="flex">
                     <button
-                      className="hover:bg-yellow-700 font-bold py-1 px-2 rounded mt-2"
+                      className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
                       style={{ color: "#f00a00", border: "2px solid #f00a00" }}
                     >
                       フォローする
@@ -417,7 +417,7 @@ export default function MainIndex() {
               </div>
               <p className="w-full text-xs">@＠青山　寿司くどう</p>
 
-              <p className="w-full py-4">
+              <p className="w-full p-2">
                 気さくな大将と豊富な日本酒で、つまみと握りが次々と出てきます。
                 締めの太巻きが絶品です。
               </p>
