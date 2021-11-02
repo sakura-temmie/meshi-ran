@@ -5,10 +5,17 @@
   },
   "hosting": {
     "public": "public",
+    "predeploy": "yarn build && yarn export",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
   },
   "storage": {
