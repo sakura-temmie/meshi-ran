@@ -18,6 +18,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  
 
   const handleSubmitWithEmail = (event) => {
     event.preventDefault();
