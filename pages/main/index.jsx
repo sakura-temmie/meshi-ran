@@ -105,9 +105,7 @@ export default function MainIndex() {
                       />
                     </svg>
                   </div>
-                  <p className="text-xs pt-2">
-                    30いいね 14いきたい 3コメント
-                  </p>
+                  <p className="text-xs pt-2">30いいね 14いきたい 3コメント</p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
                     <p className="pl-1 text-xl" style={{ color: "#f00a00" }}>
@@ -205,12 +203,10 @@ export default function MainIndex() {
                       />
                     </svg>
                   </div>
-                  <p className="text-xs pt-2">
-                    0いいね 0いきたい 0コメント
-                  </p>
+                  <p className="text-xs pt-2">0いいね 0いきたい 0コメント</p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
-                    <p className="pl-3 text-xl" style={{ color: "#f00a00" }}>
+                    <p className="pl-1 text-xl" style={{ color: "#f00a00" }}>
                       ★★★★☆
                     </p>
                   </div>
@@ -252,7 +248,7 @@ export default function MainIndex() {
                   <p className="font-bold font-lg">田中博</p>
                   <div className="flex">
                     <button
-                      className="hover:bg-yellow-700 font-bold py-1 px-1 rounded mt-2"
+                      className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
                       style={{ color: "#f00a00", border: "2px solid #f00a00" }}
                     >
                       フォローする
@@ -305,9 +301,7 @@ export default function MainIndex() {
                       />
                     </svg>
                   </div>
-                  <p className="text-xs pt-2">
-                    22いいね 8いきたい 1コメント
-                  </p>
+                  <p className="text-xs pt-2">22いいね 8いきたい 1コメント</p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
                     <p className="pl-3 text-xl" style={{ color: "#f00a00" }}>
@@ -406,12 +400,10 @@ export default function MainIndex() {
                       />
                     </svg>
                   </div>
-                  <p className="text-xs pt-2">
-                    50いいね 39いきたい 12コメント
-                  </p>
+                  <p className="text-xs pt-2">50いいね 39いきたい 12コメント</p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
-                    <p className="pl-3 text-xl" style={{ color: "#f00a00" }}>
+                    <p className="pl-1 text-xl" style={{ color: "#f00a00" }}>
                       ★★★★☆
                     </p>
                   </div>
