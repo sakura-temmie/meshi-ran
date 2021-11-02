@@ -16,8 +16,6 @@ import { auth, db } from "../../src/firebase";
 import swal from "sweetalert";
 import { useRouter } from "next/router";
 
-
-
 const Upload = () => {
   const router = useRouter();
 
@@ -287,7 +285,7 @@ const Upload = () => {
               // }}
             />
           </div>
-          <svg
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-20 w-20"
             viewBox="0 0 20 20"
@@ -298,20 +296,24 @@ const Upload = () => {
               d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z"
               clipRule="evenodd"
             />
-          </svg>
+          </svg> */}
+          <div className="flex flex-col items-center">
+
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-20 w-20"
             viewBox="0 0 20 20"
             fill="currentColor"
             onClick={fileUpload}
-          >
+            >
             <path
               fillRule="evenodd"
               d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
               clipRule="evenodd"
-            />
+              />
           </svg>
+              <span>動画をアップロードする</span>
+              </div>
         </div>
         <div className="flex items-center flex-col mt-4">
           <div

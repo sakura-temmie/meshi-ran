@@ -26,11 +26,11 @@ export default function MainIndex() {
     }
   };
 
-   useEffect(() => {
-     if (typeof window !== "undefined") {
-       getUser();
-     }
-   }, []);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      getUser();
+    }
+  }, []);
 
   return (
     <Layout title="みんなの投稿">
@@ -127,7 +127,8 @@ export default function MainIndex() {
                 width="414"
                 height="10"
                 muted
-                objectFit
+                playsInline
+                objectfit="true"
                 loop
                 src={require("../../public/kz3zu-jc3v1.mp4")}
               ></video>
@@ -226,7 +227,8 @@ export default function MainIndex() {
                 width="414"
                 height="10"
                 muted
-                objectFit
+                playsInline
+                objectfit="true"
                 loop
                 src={require("../../public/IMG_2653.mp4")}
               ></video>
@@ -326,7 +328,8 @@ export default function MainIndex() {
                 width="414"
                 height="10"
                 muted
-                objectFit
+                objectfit="true"
+                playsInline
                 loop
                 src={require("../../public/IMG_176689294.mp4")}
               ></video>
@@ -426,7 +429,8 @@ export default function MainIndex() {
                 width="414"
                 height="10"
                 muted
-                objectFit
+                objectfit="true"
+                playsInline
                 loop
                 src={require("../../public/IMG_257482075.mp4")}
               ></video>
