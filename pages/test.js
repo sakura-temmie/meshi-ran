@@ -12,6 +12,7 @@ import { useState } from "react";
 import { auth, db } from "../src/firebase";
 
 export default function Home() {
+  
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [userInfo, setUserInfo] = useState("");
