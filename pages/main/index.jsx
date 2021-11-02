@@ -37,7 +37,7 @@ export default function MainIndex() {
       <div className="fullPageScroll">
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute bottom-20 p-4 w-full  bg-gray-900 bg-opacity-50">
+            <div className="absolute p-4 w-full  bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-2">
                 <Image
                   src={icon2}
@@ -137,7 +137,7 @@ export default function MainIndex() {
         </section>
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute bottom-20 p-4 w-full  bg-gray-900 bg-opacity-50">
+            <div className="absolute p-4 w-full  bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-2">
                 <Image
                   src={icon}
@@ -237,7 +237,7 @@ export default function MainIndex() {
         </section>
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute bottom-20 p-4 w-full  bg-gray-900 bg-opacity-50">
+            <div className="absolute p-4 w-full  bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-2">
                 <Image
                   src={icon}
@@ -338,7 +338,7 @@ export default function MainIndex() {
         </section>
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute bottom-20 p-4 w-full  bg-gray-900 bg-opacity-50">
+            <div className="absolute p-4 w-full  bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-2">
                 <Image
                   src={icon}
