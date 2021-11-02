@@ -4,7 +4,6 @@ import Layout from "../components/layout/Layout";
 import Link from "next/link";
 import {
   GoogleAuthProvider,
-  signInWithPopup,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../src/firebase";

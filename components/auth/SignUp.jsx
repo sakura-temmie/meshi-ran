@@ -1,12 +1,8 @@
 import { useState } from "react";
 import {
-  createUserWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithRedirect,
   signInWithPopup,
   signInWithEmailAndPassword,
-  // getRedirectResult,
-  FacebookAuthProvider,
 } from "firebase/auth";
 import { auth } from "../../src/firebase";
 import { useRouter } from "next/router";
@@ -18,7 +14,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  
+
 
   const handleSubmitWithEmail = (event) => {
     event.preventDefault();
