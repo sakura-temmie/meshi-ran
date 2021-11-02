@@ -4,11 +4,15 @@ import {
   GoogleAuthProvider,
   signInWithRedirect,
   signInWithPopup,
+  signInWithEmailAndPassword,
   // getRedirectResult,
   FacebookAuthProvider,
 } from "firebase/auth";
 import { auth } from "../../src/firebase";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import Link from "next/link";
+import Logo from "../../public/meshiran_logo-03.png";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -17,8 +21,16 @@ const SignUp = () => {
 
   const handleSubmitWithEmail = (event) => {
     event.preventDefault();
-    console.log(email, password);
-    createUserWithEmailAndPassword(auth, email, password);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        router.push("/main");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
   };
 
   const googleSignIn = () => {
@@ -30,51 +42,72 @@ const SignUp = () => {
         const token = credential.accessToken;
         const user = res.user;
         console.log(user);
-        router.push("/main/upload");
+        router.push("/main");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         const email = error.email;
         const credential = GoogleAuthProvider.credentialFromError(error);
-        //エラーコード表示させる処理あれば書く
+        //エラーコード
         console.log(errorCode, errorMessage, email, credential);
       });
   };
 
-  const facebookSignIn = () => {
-    const provider = new FacebookAuthProvider();
-    signInWithRedirect(auth, provider);
-  };
+  // const facebookSignIn = () => {
+  //   const provider = new FacebookAuthProvider();
+  //   signInWithRedirect(auth, provider);
+  // };
 
   return (
     <div>
-      <h1>ユーザ登録</h1>
-      <form onSubmit={handleSubmitWithEmail}>
-        <div>
-          <label>メールアドレス</label>
-          <input
-            name="email"
-            type="email"
-            placeholder="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
+      <div className="p-5">
+        <div className="text-center">
+          <Image src={Logo} alt="logo" width="200" height="200" />
         </div>
-        <div>
-          <label>パスワード</label>
+        <form onSubmit={handleSubmitWithEmail}>
+          <p className="mb-2">メールアドレス</p>
           <input
-            name="password"
+            className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm mb-2"
+            placeholder="例）xxx@xxxco.jp"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <p className="mb-2">パスワード</p>
+          <input
+            className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+            value={password}
             type="password"
-            placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           />
-        </div>
-        <div>
-          <button>登録</button>
-        </div>
-      </form>
-      <button onClick={googleSignIn}>Google</button>
-      <button onClick={facebookSignIn}>Facebook</button>
+          <p className="text-gray-400">5文字以上の英数字</p>
+          <div className="flex flex-col items-center justify-between mt-2 px-3">
+            <button
+              type="submit"
+              className="text-lg hover:bg-red-700 text-white font-bold py-2 px-8 rounded"
+              style={{ background: "#f00a00" }}
+            >
+              メールでログイン
+            </button>
+            <button
+              onClick={googleSignIn}
+              className="mt-4 bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-6 rounded text-lg inline-flex items-center"
+            >
+              <span>Googleでログイン</span>
+            </button>
+            <p className="text-center mt-8">はじめてご利用の方</p>
+            <Link href="/register" passHref>
+              <p className="text-lg text-yellow-600 font-bold py-2 rounded">
+                会員登録に進む
+              </p>
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

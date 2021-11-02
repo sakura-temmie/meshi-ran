@@ -3,8 +3,35 @@ import icon from "../../public/img01.jpg";
 import icon2 from "../../public/pngn.jpg";
 import Image from "next/image";
 import Layout from "../../components/layout/Layout";
+import { getAuth } from "firebase/auth";
+import { useState, useEffect } from "react";
 
-export default function mainIndex() {
+export default function MainIndex() {
+  const getUser = () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    console.log(user);
+    if (user !== null) {
+      // The user object has basic properties such as display name, email, etc.
+      const displayName = user.displayName;
+      const email = user.email;
+      const photoURL = user.photoURL;
+      const emailVerified = user.emailVerified;
+
+      // The user's ID, unique to the Firebase project. Do NOT use
+      // this value to authenticate with your backend server, if
+      // you have one. Use User.getToken() instead.
+      const uid = user.uid;
+      console.log(displayName, email, photoURL, emailVerified, uid);
+    }
+  };
+
+   useEffect(() => {
+     if (typeof window !== "undefined") {
+       getUser();
+     }
+   }, []);
+
   return (
     <Layout title="みんなの投稿">
       <div className="fullPageScroll">
