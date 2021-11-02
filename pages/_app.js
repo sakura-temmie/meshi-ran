@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
-import { initializeApp } from "firebase/compat/app";
+import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
@@ -15,9 +15,10 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
+
 initializeApp(firebaseConfig);
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 // const analytics = getAnalytics(app);
 
