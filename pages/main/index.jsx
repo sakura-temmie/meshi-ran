@@ -1,6 +1,8 @@
 // import movie from "../../public/kz3zu-jc3v1.mp4";
 import icon from "../../public/img01.jpg";
 import icon2 from "../../public/pngn.jpg";
+import icon3 from "../../public/001.png";
+import icon4 from "../../public/002.png";
 import Image from "next/image";
 import Layout from "../../components/layout/Layout";
 import { getAuth } from "firebase/auth";
@@ -104,7 +106,7 @@ export default function MainIndex() {
                     </svg>
                   </div>
                   <p className="text-xs pt-2">
-                    30いいね！ 14いきたい！ 3コメント
+                    30いいね 14いきたい 3コメント
                   </p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
@@ -204,7 +206,7 @@ export default function MainIndex() {
                     </svg>
                   </div>
                   <p className="text-xs pt-2">
-                    0いいね！ 0いきたい！ 0コメント
+                    0いいね 0いきたい 0コメント
                   </p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
@@ -240,7 +242,7 @@ export default function MainIndex() {
             <div className="absolute p-1 w-full  bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-1">
                 <Image
-                  src={icon}
+                  src={icon3}
                   alt=""
                   className="object-cover rounded-full flex items-center justify-center"
                   width="60"
@@ -304,7 +306,7 @@ export default function MainIndex() {
                     </svg>
                   </div>
                   <p className="text-xs pt-2">
-                    22いいね！ 8いきたい！ 1コメント
+                    22いいね 8いきたい 1コメント
                   </p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
@@ -341,7 +343,7 @@ export default function MainIndex() {
             <div className="absolute p-1 w-full  bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-2">
                 <Image
-                  src={icon}
+                  src={icon4}
                   alt=""
                   className="object-cover rounded-full flex items-center justify-center"
                   width="60"
@@ -405,7 +407,7 @@ export default function MainIndex() {
                     </svg>
                   </div>
                   <p className="text-xs pt-2">
-                    50いいね！ 39いきたい！ 12コメント
+                    50いいね 39いきたい 12コメント
                   </p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
