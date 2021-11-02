@@ -17,7 +17,10 @@ export default function Layout({ children, title }) {
         >
           <p className="font-bold text-white text-lg">{title}</p>
         </div>
-        <main className="flex-grow pb-8 m-auto" style={{ width: "414px" }}>
+        <main
+          className="justify-center item-center flex-grow pb-8 m-auto"
+          style={{ width: "414px" }}
+        >
           {children}
         </main>
         <footer className="text-center p-2 absolute bottom-0 w-full bg-gray-100 flex justify-between px-6 sticky bottom-0">
