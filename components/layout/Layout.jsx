@@ -10,9 +10,9 @@ export default function Layout({ children, title }) {
         {/* プロップスで渡された値を動的に受け取る */}
         <title>{title}</title>
       </Head>
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen w-full">
         <div
-          className="text-center p-2 sticky top-0 z-10"
+          className="text-center p-2 sticky top-0 z-10 w-full"
           style={{ background: "#f00a00" }}
         >
           <p className="font-bold text-white text-lg">{title}</p>
