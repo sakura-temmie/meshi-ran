@@ -37,7 +37,7 @@ export default function MainIndex() {
       <div className="fullPageScroll">
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute p-4 w-full  bg-gray-900 bg-opacity-50">
+            <div className="absolute p-2 w-full  bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-2">
                 <Image
                   src={icon2}
@@ -50,14 +50,14 @@ export default function MainIndex() {
                   <p className="font-bold font-lg">山田花子</p>
                   <div className="flex">
                     <button
-                      className="hover:bg-yellow-700 font-bold py-1 px-2 rounded mt-2"
+                      className="hover:bg-yellow-700 font-bold py-1 px-1 rounded mt-2"
                       style={{ color: "#f00a00", border: "2px solid #f00a00" }}
                     >
                       フォローする
                     </button>
                   </div>
                 </div>
-                <div className="flex flex-col items-center ml-5">
+                <div className="flex flex-col items-center ml-2">
                   <div className="flex">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -104,11 +104,11 @@ export default function MainIndex() {
                     </svg>
                   </div>
                   <p className="text-xs pt-2">
-                    30いいね！　14いきたい！　3コメント
+                    30いいね！ 14いきたい！ 3コメント
                   </p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
-                    <p className="pl-3 text-xl" style={{ color: "#f00a00" }}>
+                    <p className="pl-1 text-xl" style={{ color: "#f00a00" }}>
                       ★★★★☆
                     </p>
                   </div>
@@ -137,8 +137,8 @@ export default function MainIndex() {
         </section>
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute p-4 w-full  bg-gray-900 bg-opacity-50">
-              <div className="flex items-center justify-start px-2">
+            <div className="absolute p-2 w-full  bg-gray-900 bg-opacity-50">
+              <div className="flex items-center justify-start px-1">
                 <Image
                   src={icon}
                   alt=""
@@ -150,7 +150,7 @@ export default function MainIndex() {
                   <p className="font-bold font-lg">鈴木拓也</p>
                   <div className="flex">
                     <button
-                      className="hover:bg-yellow-700 font-bold py-1 px-2 rounded mt-2"
+                      className="hover:bg-yellow-700 font-bold py-1 px-1 rounded mt-2"
                       style={{ color: "#f00a00", border: "2px solid #f00a00" }}
                     >
                       フォローする
@@ -204,7 +204,7 @@ export default function MainIndex() {
                     </svg>
                   </div>
                   <p className="text-xs pt-2">
-                    0いいね！　0いきたい！　0コメント
+                    0いいね！ 0いきたい！ 0コメント
                   </p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
@@ -237,8 +237,8 @@ export default function MainIndex() {
         </section>
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute p-4 w-full  bg-gray-900 bg-opacity-50">
-              <div className="flex items-center justify-start px-2">
+            <div className="absolute p-2 w-full  bg-gray-900 bg-opacity-50">
+              <div className="flex items-center justify-start px-1">
                 <Image
                   src={icon}
                   alt=""
@@ -250,7 +250,7 @@ export default function MainIndex() {
                   <p className="font-bold font-lg">田中博</p>
                   <div className="flex">
                     <button
-                      className="hover:bg-yellow-700 font-bold py-1 px-2 rounded mt-2"
+                      className="hover:bg-yellow-700 font-bold py-1 px-1 rounded mt-2"
                       style={{ color: "#f00a00", border: "2px solid #f00a00" }}
                     >
                       フォローする
@@ -304,7 +304,7 @@ export default function MainIndex() {
                     </svg>
                   </div>
                   <p className="text-xs pt-2">
-                    22いいね！　8いきたい！　1コメント
+                    22いいね！ 8いきたい！ 1コメント
                   </p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
@@ -338,7 +338,7 @@ export default function MainIndex() {
         </section>
         <section id="section1" className="section section1 relative">
           <div className="relative text-white">
-            <div className="absolute p-4 w-full  bg-gray-900 bg-opacity-50">
+            <div className="absolute p-2 w-full  bg-gray-900 bg-opacity-50">
               <div className="flex items-center justify-start px-2">
                 <Image
                   src={icon}
@@ -405,7 +405,7 @@ export default function MainIndex() {
                     </svg>
                   </div>
                   <p className="text-xs pt-2">
-                    50いいね！　39いきたい！　12コメント
+                    50いいね！ 39いきたい！ 12コメント
                   </p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
