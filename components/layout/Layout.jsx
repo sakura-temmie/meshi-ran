@@ -18,7 +18,7 @@ export default function Layout({ children, title }) {
           <p className="font-bold text-white text-lg">{title}</p>
         </div>
         <main
-          className="justify-center item-center flex-grow pb-8 m-auto w-full"
+          className="justify-center item-center flex-grow pb-12 m-auto w-full"
           // style={{ width: "414px" }}
         >
           {children}
