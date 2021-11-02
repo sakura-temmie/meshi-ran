@@ -5,21 +5,21 @@ import Link from "next/link";
 //titleはLayoutが呼び出された時にページから特定のタイトルを受け取る
 export default function Layout({ children, title }) {
   return (
-    <div className="flex font-sans justify-center item-center flex-col min-h-screen text-gray-600 text-sm font-mono relative">
+    <div className="flex font-sans justify-center w-full item-center flex-col min-h-screen text-gray-600 text-sm font-mono relative">
       <Head>
         {/* プロップスで渡された値を動的に受け取る */}
         <title>{title}</title>
       </Head>
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen w-full">
         <div
-          className="text-center p-2 sticky top-0 z-10"
+          className="text-center p-2 sticky top-0 z-10 w-full"
           style={{ background: "#f00a00" }}
         >
           <p className="font-bold text-white text-lg">{title}</p>
         </div>
         <main
-          className="justify-center item-center flex-grow pb-8 m-auto"
-          style={{ width: "414px" }}
+          className="justify-center item-center flex-grow pb-8 m-auto w-full"
+          // style={{ width: "414px" }}
         >
           {children}
         </main>
