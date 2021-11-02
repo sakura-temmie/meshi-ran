@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/compat/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";

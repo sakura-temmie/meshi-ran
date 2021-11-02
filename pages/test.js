@@ -7,7 +7,7 @@ import {
   getDocs,
   getFirestore,
 } from "firebase/firestore";
-import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/compat/app";
 import { useState } from "react";
 import { auth, db } from "../src/firebase";
 
