@@ -28,7 +28,7 @@ const SignUp = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        swal(error.code, error.message, "error").then((willSearch) => {
+        swal(errorCode, errorMessage, "error").then((willSearch) => {
           if (willSearch) {
             router.push("/");
           }

@@ -34,7 +34,12 @@ export default function Register() {
         const email = error.email;
         const credential = GoogleAuthProvider.credentialFromError(error);
         //エラーコード表示させる処理あれば書く
-        console.log(errorCode, errorMessage, email, credential);
+        swal(errorMessage, email, "error").then((willSearch) => {
+          if (willSearch) {
+            router.push("/");
+          }
+        });
+        console.log(errorMessage, errorMessage, email, credential);
       });
   };
 

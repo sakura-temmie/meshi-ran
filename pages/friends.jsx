@@ -39,7 +39,7 @@ export default function mainIndex() {
           />
           <p className="font-bold pt-2">斎藤理恵</p>
         </div>
-        <Link href="/main">
+        <Link href="/main" passHref>
           <button
             type="submit"
             className="text-lg hover:bg-red-700 text-white font-bold py-2 px-16 rounded mt-10"
