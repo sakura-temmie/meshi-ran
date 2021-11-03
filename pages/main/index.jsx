@@ -151,9 +151,12 @@ export default function MainIndex() {
                   <div className="flex">
                     <button
                       className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
-                      style={{ color: "#f00a00", border: "2px solid #f00a00" }}
+                      style={{
+                        background: "#f00a00",
+                        border: "2px solid #f00a00",
+                      }}
                     >
-                      フォローする
+                      フォロー中
                     </button>
                   </div>
                 </div>
@@ -249,9 +252,12 @@ export default function MainIndex() {
                   <div className="flex">
                     <button
                       className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
-                      style={{ color: "#f00a00", border: "2px solid #f00a00" }}
+                      style={{
+                        background: "#f00a00",
+                        border: "2px solid #f00a00",
+                      }}
                     >
-                      フォローする
+                      フォロー中
                     </button>
                   </div>
                 </div>
@@ -348,9 +354,12 @@ export default function MainIndex() {
                   <div className="flex">
                     <button
                       className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
-                      style={{ color: "#f00a00", border: "2px solid #f00a00" }}
+                      style={{
+                        background: "#f00a00",
+                        border: "2px solid #f00a00",
+                      }}
                     >
-                      フォローする
+                      フォロー中
                     </button>
                   </div>
                 </div>

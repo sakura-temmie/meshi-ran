@@ -13,8 +13,11 @@ import i_09 from "../../public/test05.jpg";
 import i_010 from "../../public/test06.jpeg";
 
 const top = () => {
+
+  const name = "鈴木拓也"
+
   return (
-    <Layout title="山田花子さんのメシラン">
+    <Layout title="鈴木拓也さんのメシラン">
       <div className="flex items-center justify-between px-5 bg-white mt-2">
         <Image
           src={icon}
@@ -23,7 +26,7 @@ const top = () => {
           width="60"
           height="60"
         />
-        <p className="font-bold text-lg">山田花子</p>
+        <p className="font-bold text-lg">鈴木拓也</p>
         <p
           className="text-white font-bold p-2 rounded"
           style={{ background: "#f00a00" }}
