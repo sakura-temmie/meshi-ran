@@ -1,8 +1,9 @@
 import { useState } from "react";
 import {
   GoogleAuthProvider,
-  signInWithPopup,
+  // signInWithPopup,
   signInWithEmailAndPassword,
+  signInWithRedirect,
 } from "firebase/auth";
 import { auth } from "../../src/firebase";
 import { useRouter } from "next/router";
@@ -38,13 +39,13 @@ const SignUp = () => {
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
+    signInWithRedirect(auth, provider)
       .then((res) => {
         const credential = GoogleAuthProvider.credentialFromResult(res);
-        console.log(credential); //accessToken: idToken: providerId
+        // console.log(credential); //accessToken: idToken: providerId
         const token = credential.accessToken;
         const user = res.user;
-        console.log(user);
+        // console.log(user);
         router.push("/main");
       })
       .catch((error) => {
