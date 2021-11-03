@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "../../public/meshiran_logo-03.png";
+import swal from "sweetalert";
+
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -26,7 +28,11 @@ const SignUp = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        swal(error.code, error.message, "error").then((willSearch) => {
+          if (willSearch) {
+            router.push("/");
+          }
+        });
       });
   };
 

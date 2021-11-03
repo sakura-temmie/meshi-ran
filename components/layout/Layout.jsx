@@ -19,7 +19,7 @@ export default function Layout({ children, title }) {
         </div>
         <main
           className="justify-center item-center flex-grow pb-12 m-auto w-full"
-          // style={{ width: "414px" }}
+          style={{ width: "414px" }}
         >
           {children}
         </main>
