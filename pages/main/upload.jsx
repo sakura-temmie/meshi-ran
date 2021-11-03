@@ -374,6 +374,7 @@ const Upload = () => {
               className="appearance-none bg-transparent border-none text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
               type="text"
               placeholder="任意"
+              style={{ fontSize: "16px" }}
               onChange={(e) => setUrl(e.target.value)}
             />
           </div>
