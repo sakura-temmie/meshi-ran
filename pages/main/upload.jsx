@@ -298,22 +298,21 @@ const Upload = () => {
             />
           </svg> */}
           <div className="flex flex-col items-center">
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-20 w-20"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            onClick={fileUpload}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-20 w-20"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              onClick={fileUpload}
             >
-            <path
-              fillRule="evenodd"
-              d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-              clipRule="evenodd"
+              <path
+                fillRule="evenodd"
+                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                clipRule="evenodd"
               />
-          </svg>
-              <span>動画をアップロードする</span>
-              </div>
+            </svg>
+            <span>動画をアップロードする</span>
+          </div>
         </div>
         <div className="flex items-center flex-col mt-4">
           <div
@@ -327,6 +326,7 @@ const Upload = () => {
               className="appearance-none bg-transparent border-none text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
               type="text"
               placeholder="必須"
+              style={{ fontSize: "16px" }}
               onChange={(e) => setStore(e.target.value)}
             />
           </div>
@@ -341,6 +341,7 @@ const Upload = () => {
               className="appearance-none bg-transparent border-none text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
               type="text"
               placeholder="必須"
+              style={{ fontSize: "16px" }}
               onChange={(e) => setArea(e.target.value)}
             />
           </div>
@@ -380,7 +381,7 @@ const Upload = () => {
             <textarea
               className="shadow appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               rows="6"
-              style={{ border: "solid #f00a00 1px" }}
+              style={{ border: "solid #f00a00 1px", fontSize: "16px" }}
               placeholder="コメント(150字以内)"
               onChange={(e) => setComments(e.target.value)}
             />
