@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
-import testImage from "../../public/image.jpeg";
 // import testMovie from "../../public/movie01.mov";
 
 const Storage = () => {
