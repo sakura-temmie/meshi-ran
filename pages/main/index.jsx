@@ -111,7 +111,7 @@ export default function MainIndex() {
                       const d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
                     />
                   </div>
-                  <p className="text-xs pt-2">30いいね 14いきたい 3コメント</p>
+                  <p className="text-xs pt-2">30いいね 3コメント 14いきたい</p>
                   <div className="flex items-center justify-center">
                     <p>評価：また行きたい</p>
                     <p className="pl-1 text-xl" style={{ color: "#f00a00" }}>
