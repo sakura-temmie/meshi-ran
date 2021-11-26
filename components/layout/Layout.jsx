@@ -8,6 +8,7 @@ export default function Layout({ children, title }) {
     <div className="flex font-sans justify-center w-full item-center flex-col min-h-screen text-gray-600 text-sm font-mono relative">
       <Head>
         {/* プロップスで渡された値を動的に受け取る */}
+        <meta httpEquiv="origin-trial" content="token" />
         <title>{title}</title>
       </Head>
       <body className="flex flex-col min-h-screen w-full">
