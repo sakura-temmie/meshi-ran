@@ -36,7 +36,9 @@ const Upload = () => {
     console.log(store, area, category, url, comments, lank, evaluation);
 
     const storage = getStorage();
-    const storageRef = ref(storage, "movies/01");
+    const movName = mov.name;
+    console.log(movName);
+    const storageRef = ref(storage, `movies/${movName}`);
     console.log(mov);
     console.log("1=======================");
     uploadBytes(storageRef, mov).then((snapshot) => {
