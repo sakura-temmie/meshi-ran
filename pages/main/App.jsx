@@ -5,6 +5,7 @@ const App = () => {
   const [videoSrc, setVideoSrc] = useState("");
   const [message, setMessage] = useState("Click Start to transcode");
   const ffmpeg = createFFmpeg({
+    corePath: "http://localhost:3000/public/ffmpeg-core.js",
     log: true,
   });
 
