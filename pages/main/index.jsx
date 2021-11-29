@@ -1,28 +1,142 @@
-// import movie from "../../public/kz3zu-jc3v1.mp4";
-// import icon from "../../public/img01.jpg";
-// import icon2 from "../../public/pngn.jpg";
-// import icon3 from "../../public/001.png";
-// import icon4 from "../../public/002.png";
-// import Image from "next/image";
-// import image from "next/image";
-// import { data } from "autoprefixer";
 import Layout from "../../components/layout/Layout";
 import { getAuth } from "firebase/auth";
 import { useState, useEffect } from "react";
 import ModalComment from "../../components/window/ModalComment";
-import { doc, collection, query, getDocs, getDoc } from "firebase/firestore";
+import { doc, collection, query, getDocs, getDoc, updateDoc, arrayUnion, arrayRemove, setDoc } from "firebase/firestore";
 import { db } from "../../src/firebase";
+import { async } from "@firebase/util";
 
 export default function MainIndex() {
+  const initialState = [{
+    id: "",
+    likes: [],
+    movieUrl: "",
+    post_text: "",
+    restaurantAdress: "",
+    restaurantName: "",
+    restaurantsRef: "",
+    userId: "",
+    wants: [],
+    followingIds: [],
+  }];
 
-  const [isFollowIconState, setFollowIconState] = useState(true);
-  const [isLikeIconState, setLikeIconState] = useState(true);
-  const [isWantIconState, setWantIconState] = useState(true);
+  const initialUserState = [{
+    docId: "",
+    birthday: "",
+    bookmarkedPostDocId: [],
+    followedIds: [],
+    followingIds: [],
+    foodCategory: "",
+    imageUrl: "",
+    name: "",
+    userCountry: "",
+    userPrefecture: "",
+    userRegion: "",
+  }];
 
+  const [loginUserId, setLoginUserId] = useState("");               // ログインユーザー
+  const [users, setUsers] = useState(initialUserState);             // ユーザー情報
+  const [isFollowIconState, setFollowIconState] = useState(false);  // フォロー状態（true:ON false:OFF)
+  const [isLikeIconState, setLikeIconState] = useState(false);      // いいね状態（true:ON false:OFF)
+  const [isWantIconState, setWantIconState] = useState(false);      // 行きたい状態（true:ON false:OFF)
+  const [posts, setPosts] = useState(initialState);                 // 投稿情報
+
+  // フォローの設定
+  const follow = async (postDocId, loginUserId) => {
+    try {
+      const postUserDocRef = doc(db, "posts", postDocId);          
+      const docSnap = await getDoc(postUserDocRef);
+      const postedUserId = docSnap.data().userId;                 //  フォローした投稿者のUserIdを取得
+      
+      console.log("loginUserId:",loginUserId,"postedUserId",postedUserId); 
+      if ( isFollowIconState ) {                                  // ブックマークアイコンの状態を変える
+        setFollowIconState(false);
+        const userDocRef = doc(db,"users",loginUserId);            
+        await updateDoc(userDocRef, {"followingIds": arrayRemove(postedUserId)});  // Firebaseのusersのfollowingに投稿したユーザーのIDを削除
+      } else {
+        setFollowIconState(true);
+        const userDocRef = doc(db,"users",loginUserId);     
+              
+        await updateDoc(userDocRef, {"followingIds": arrayUnion(postedUserId)});  // Firebaseのusersのfollowingに投稿したユーザーのIDを登録
+      }
+
+    } catch {
+      console.log("Error document:");
+    }
+  }
+
+  // いいねの設定 //////////////////////////////////////
+  const likes = async (postDocId, loginUserId) => {
+    try {
+      const likeDocRef = doc(db, "posts", postDocId);
+      if (isLikeIconState){
+        await updateDoc(likeDocRef, {"likes": arrayRemove(loginUserId)});
+        setLikeIconState(false);
+      } else {
+        await updateDoc(likeDocRef, {"likes": arrayUnion(loginUserId)});
+        setLikeIconState(true);
+      }
+
+      posts.map((doc, index) =>{
+        const likeArray = new Array();
+        const posts_copy = posts.slice();
+
+        for (let lCnt=0; lCnt < doc.likes.length; lCnt++){
+          const compA = String(doc.likes[lCnt]).trim();
+          likeArray.push( compA );
+
+          if ( String(doc.id).trim() == String(postDocId).trim() ) {
+            if (!isLikeIconState){  // ONの時だけ値を入れる
+              const compB = String(loginUserId).trim();
+              likeArray.push( compB );
+          }}
+          posts_copy[index].likes[lCnt] = likeArray;
+        }
+        setPosts(posts_copy);     
+      })
+    } catch {
+      console.log("Error document:");
+    }
+  }
+ 
+  // 行きたいの設定 //////////////////////////////////////
+  const wants = async (postDocId, loginUserId) => {
+    try {
+      const userDocRef = doc(db, "users", loginUserId);
+      const wantDocRef = doc(db, "posts", postDocId);
+      if (isWantIconState){
+        await updateDoc(wantDocRef, {"wants": arrayRemove(loginUserId)});
+        await updateDoc(userDocRef, {"bookmarkedPostDocId": arrayRemove(postDocId)});
+        setWantIconState(false);
+      } else {
+        await updateDoc(wantDocRef, {"wants": arrayUnion(loginUserId)});
+        await updateDoc(userDocRef, {"bookmarkedPostDocId": arrayUnion(postDocId)});
+        setWantIconState(true);
+      }
+
+      posts.map((doc, index) =>{
+        const wantArray = new Array();
+        const posts_copy = posts.slice();
+
+        for (let lCnt=0; lCnt < doc.wants.length; lCnt++){
+          const compA = String(doc.wants[lCnt]).trim();
+          wantArray.push( compA );
+          if ( String(doc.id).trim() == String(postDocId).trim() ) {
+            if (!isWantIconState){
+              const compB = String(loginUserId).trim();
+              wantArray.push( compB );
+          }}
+          posts_copy[index].wants[lCnt] = wantArray;
+        }
+        setPosts(posts_copy);     
+      })
+    } catch {
+      console.log("Error document:");
+    }
+  }
+  
   // 投稿動画に表示するユーザー情報の取得 ////////////////////
-  // Firebase から posts データを取得する
-  const[posts, setPosts]= useState(new Array());
-
+  // Firebase から posts のフィールドデータを取得する
   const getPosts = async (e) => {
     try {
       const q = query(collection(db, "posts"));
@@ -32,7 +146,7 @@ export default function MainIndex() {
       querySnapshot.forEach((doc) =>{
         values[cnt] = 
         {
-          id: doc.id,
+          id: String(doc.id),
           likes: doc.data().likes,
           movieUrl: doc.data().movieUrl,
           post_text: doc.data().post_text,
@@ -45,6 +159,7 @@ export default function MainIndex() {
         ++cnt
       })
 
+      // Firebase から posts のコレクションデータ(comments)を取得する
       // 投稿に対するコメントの総数といいね総数といきたい総数
       for(let i = 0; i < values.length; i++) {
         // 投稿に対するコメントの総数
@@ -65,7 +180,8 @@ export default function MainIndex() {
 
       // 投稿者の名前とアイコンを取得
       for(let i = 0; i < values.length; i++) {
-        const docRef = doc(db, "users", values[i].id);
+        const docRef = doc(db, "users", values[i].userId);
+        // console.log("values[i].userId",values[i].userId)
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           // console.log("Document data:", docSnap.data());
@@ -83,6 +199,62 @@ export default function MainIndex() {
       console.log("Error document:",e);
     }
   }
+
+  // Firebaseのusersに登録 ////////////////
+  const registerFbUsers = async (docId,imageUrl,name) => {
+    try {
+      const userDocRef = doc(db,"users",docId);
+      const docSnap = await getDoc(userDocRef);
+      if (docSnap.exists()) {
+        // 初回ログインではない場合、フォローアイコンのオンオフを確認する
+        // if( docSnap.data().bookmarkedPostDocId.length > 0 ) {setFollowIconState(true);}
+        // else {setFollowIconState(false);}
+      }
+      else {//初回ログイン
+        const copy_users = (
+          [{
+            docId: docId,
+            birthday: "",
+            bookmarkedPostDocId: [],
+            followedIds: [],
+            followingIds: [],
+            foodCategory: "",
+            imageUrl: imageUrl,
+            name: name,
+            userCountry: "",
+            userPrefecture: "",
+            userRegion: "",
+          }]
+        );
+        
+        const docRef = await setDoc(doc(db, "users", docId), {
+          docId: docId,
+          birthday: "",
+          bookmarkedPostDocId: [],
+          followedIds: [],
+          followingIds: [],
+          foodCategory: "",
+          imageUrl: imageUrl,
+          name: name,
+          userCountry: "",
+          userPrefecture: "",
+          userRegion: "",
+        })
+        setUsers(copy_users);
+      }
+
+    } catch (e) {
+      console.log("Error document:",e);
+    }
+  }
+
+  // ログイン時のアイコンの状態を取得 ////////////////
+  const initLikeAndWantIconState = () => {
+    console.log("posts.likeCnt",posts.likeCnt);
+    if (posts.likeCnt > 0) setLikeIconState(true);
+    if (posts.wantCnt > 0) setWantIconState(true);
+  }
+
   ///////////////////////////////////////
   const getUser = () => {
     const auth = getAuth();
@@ -94,7 +266,10 @@ export default function MainIndex() {
       const photoURL = user.photoURL;
       const emailVerified = user.emailVerified;
       const uid = user.uid;
-      console.log(displayName, email, photoURL, emailVerified, uid);
+      // console.log(displayName, email, photoURL, emailVerified, uid);
+      setLoginUserId(uid);
+      registerFbUsers(uid,photoURL,displayName);
+      console.log("uid",uid, "loginUserId",loginUserId);
     }
   };
 
@@ -102,10 +277,11 @@ export default function MainIndex() {
     if (typeof window !== "undefined") {
       getUser();
       getPosts();
+      // initLikeAndWantIconState();
     }
   }, []);
 
-  // console.log("posts",posts);
+  console.log("LastPosts",posts, "loginUserId",loginUserId);
 
   return (
     <Layout title="みんなの投稿">
@@ -140,13 +316,13 @@ export default function MainIndex() {
                   <div className="pl-2 flex flex-col">
                     <p className="font-bold font-lg">{datas.name}</p>
                     <div className="flex">
-                      <button onClick={() => (isFollowIconState===true ? setFollowIconState(false) : setFollowIconState(true))}
+                      <button onClick={() => (follow(datas.id, loginUserId))}
                         className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
-                        style={isFollowIconState ? { backgroundColor: "transparent",color: "#fff", border: "2px solid #fff" } 
-                        : { backgroundColor: "transparent", color: "#f00a00", border: "2px solid #f00a00" } }
+                        style={{ color: "#f00a00", border: "2px solid #f00a00" }}
+                        // style={isFollowIconState ? { backgroundColor: "transparent", color: "#f00a00", border: "2px solid #f00a00" } 
+                        // : { backgroundColor: "transparent",color: "#fff", border: "2px solid #fff" } }
                       >
                         フォロー
-                        {/* {isFollowIconState ? "フォローする" : "フォロー中"} */}
                       </button>
                     </div>
                   </div>
@@ -154,10 +330,11 @@ export default function MainIndex() {
                 <div className="flex flex-col items-center ml-2">
                   <div className="flex">
                     <svg
-                      onClick={() => (isLikeIconState===true ? setLikeIconState(false) : setLikeIconState(true))}
+                      onClick={() => (likes(datas.id, loginUserId))}
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6 text-red-500 mr-5"
-                      style={isLikeIconState ? { color: "#fff" } : { color: "#f00a00" } }
+                      style={{ color: "#f00a00" }}
+                      // style={isLikeIconState ? { color: "#f00a00" } : { color: "#fff" } }
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -170,7 +347,8 @@ export default function MainIndex() {
                       />
                     </svg>
                     <ModalComment
-                     postid={datas.id}
+                     key={datas.id}
+                     docId={datas.id}
                      xmlns="http://www.w3.org/2000/svg"
                      className="h-6 w-6"
                      fill="none"
@@ -182,10 +360,11 @@ export default function MainIndex() {
                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                     />
                     <svg
-                      onClick={() => (isWantIconState===true ? setWantIconState(false) : setWantIconState(true))}
+                      onClick={() => (wants(datas.id, loginUserId))}
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6 ml-5"
-                      style={isWantIconState ? { color: "#fff" } : { color: "#f00a00" } }
+                      style={{ color: "#f00a00" }}
+                      // style={isWantIconState ? { color: "#f00a00" } : { color: "#fff" } }
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -198,7 +377,7 @@ export default function MainIndex() {
                       />
                     </svg>
                   </div>
-                  <p className="text-xs pt-2">{datas.likeCnt}いいね {datas.comAllCnt}コメント {datas.wantCnt}いきたい</p>
+                  {/* <p className="text-xs pt-2">{datas.likeCnt}いいね {datas.comAllCnt}コメント {datas.wantCnt}いきたい</p> */}
                   <div className="flex items-center justify-center">
                     <p>評価：</p>
                     <p className="pl-1 text-xl" style={{ color: "#f00a00" }}>
@@ -207,398 +386,14 @@ export default function MainIndex() {
                   </div>
                 </div>
               </div>
-              <p className="w-full text-xs">{datas.restaurantName}</p>
-              <p className="w-full p-2">
+              <p className="w-full p-2 text-xs">{datas.restaurantName}</p>
+              <p className="w-full p-1">
                 {datas.post_text}
               </p>
             </div>
           </div>
         </section>
         ))}
-        
-        {/* 以下、旧コード（FireBase連携前 */}
-        {/* <section id="section1" className="section section1 relative">
-          <div className="relative text-white">
-            <div className="absolute">
-              <video
-                autoPlay
-                className="overflow-hidden"
-                width="414"
-                height="10"
-                muted
-                playsInline
-                objectfit="true"
-                loop
-                src={require("../../public/kz3zu-jc3v1.mp4")}
-              ></video>
-            </div>
-            <div className="absolute p-1 w-full bg-gray-900 bg-opacity-50">
-              <div className="flex items-center justify-start px-2">
-                <Image
-                  src={icon2}
-                  alt=""
-                  className="object-cover rounded-full flex items-center justify-center"
-                  width="60"
-                  height="60"
-                />
-                <div className="pl-2 flex flex-col">
-                  <p className="font-bold font-lg">山田花子</p>
-                  <div className="flex">
-                    <button
-                      className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
-                      style={{ color: "#f00a00", border: "2px solid #f00a00" }}
-                    >
-                      フォローする
-                    </button>
-                  </div>
-                </div>
-                <div className="flex flex-col items-center ml-2">
-                  <div className="flex">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-red-500 mr-5"
-                      style={{ color: "#f00a00" }}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      />
-                    </svg>
-                    <ModalCommentInput
-                      const xmlns="http://www.w3.org/2000/svg"
-                      const className="h-6 w-6"
-                      const fill="none"
-                      const viewBox="0 0 24 24"
-                      const stroke="currentColor"
-                      const strokeLinecap="round"
-                      const strokeLinejoin="round"
-                      const strokeWidth={2}
-                      const d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                    />
-                    <ModalCommentDisplay
-                      const xmlns="http://www.w3.org/2000/svg"
-                      const className="h-6 w-6 ml-5"
-                      const style={{ color: "#f00a00" }}
-                      const fill="none"
-                      const viewBox="0 0 24 24"
-                      const stroke="currentColor"
-                      const strokeLinecap="round"
-                      const strokeLinejoin="round"
-                      const strokeWidth={2}
-                      const d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                    />
-                  </div>
-                  <p className="text-xs pt-2">30いいね 3コメント 14いきたい</p>
-                  <div className="flex items-center justify-center">
-                    <p>評価：また行きたい</p>
-                    <p className="pl-1 text-xl" style={{ color: "#f00a00" }}>
-                      ★★★★☆
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <p className="w-full text-xs">@原宿　ビーガンじゃんがら</p>
-              <p className="w-full p-2">
-                鉄板まま出てくるので、熱々の状態で食べることができます。
-                ビーガンミートで、体にもよく、オススメです！
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section id="section1" className="section section1 relative">
-          <div className="relative text-white">
-            <div className="absolute">
-              <video
-                autoPlay
-                className="overflow-hidden"
-                width="414"
-                height="10"
-                muted
-                playsInline
-                objectfit="true"
-                loop
-                src={require("../../public/IMG_2653.mp4")}
-              ></video>
-            </div>
-            <div className="absolute p-1 w-full  bg-gray-900 bg-opacity-50">
-              <div className="flex items-center justify-start px-1">
-                <Image
-                  src={icon}
-                  alt=""
-                  className="object-cover rounded-full flex items-center justify-center"
-                  width="60"
-                  height="60"
-                />
-                <div className="pl-2 flex flex-col">
-                  <p className="font-bold font-lg">鈴木拓也</p>
-                  <div className="flex">
-                    <button
-                      className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
-                      style={{
-                        background: "#f00a00",
-                        border: "2px solid #f00a00",
-                      }}
-                    >
-                      フォロー中
-                    </button>
-                  </div>
-                </div>
-                <div className="flex flex-col items-center ml-5">
-                  <div className="flex">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-red-500 mr-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      />
-                    </svg>
-                    <ModalCommentInput
-                      const xmlns="http://www.w3.org/2000/svg"
-                      const className="h-6 w-6"
-                      const fill="none"
-                      const viewBox="0 0 24 24"
-                      const stroke="currentColor"
-                      const strokeLinecap="round"
-                      const strokeLinejoin="round"
-                      const strokeWidth={2}
-                      const d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                      />
-                    <ModalCommentDisplay
-                      const xmlns="http://www.w3.org/2000/svg"
-                      const className="h-6 w-6 ml-5"
-                      const style={{ color: "#f00a00" }}
-                      const fill="none"
-                      const viewBox="0 0 24 24"
-                      const stroke="currentColor"
-                      const strokeLinecap="round"
-                      const strokeLinejoin="round"
-                      const strokeWidth={2}
-                      const d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                      />
-                  </div>
-                  <p className="text-xs pt-2">0いいね 0いきたい 0コメント</p>
-                  <div className="flex items-center justify-center">
-                    <p>評価：また行きたい</p>
-                    <p className="pl-1 text-xl" style={{ color: "#f00a00" }}>
-                      ★★★★☆
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <p className="w-full text-xs">@新宿　エルボラーちょ</p>
-              <p className="w-full p-2">
-                メキシコ料理をリーズナブルに食べられる。
-                味の濃いジャンバラヤで酒が進む。
-              </p>
-            </div>
-          </div>
-        </section>
-    
-        <section id="section1" className="section section1 relative">
-          <div className="relative text-white">
-            <div className="absolute">
-              <video
-                autoPlay
-                className="overflow-hidden"
-                width="414"
-                height="10"
-                muted
-                objectfit="true"
-                playsInline
-                loop
-                src={require("../../public/IMG_176689294.mp4")}
-              ></video>
-            </div>
-            <div className="absolute p-1 w-full  bg-gray-900 bg-opacity-50">
-              <div className="flex items-center justify-start px-1">
-                <Image
-                  src={icon3}
-                  alt=""
-                  className="object-cover rounded-full flex items-center justify-center"
-                  width="60"
-                  height="60"
-                />
-                <div className="pl-2 flex flex-col">
-                  <p className="font-bold font-lg">田中博</p>
-                  <div className="flex">
-                    <button
-                      className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
-                      style={{
-                        background: "#f00a00",
-                        border: "2px solid #f00a00",
-                      }}
-                    >
-                      フォロー中
-                    </button>
-                  </div>
-                </div>
-                <div className="flex flex-col items-center ml-5">
-                  <div className="flex">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-red-500 mr-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      />
-                    </svg>
-                    <ModalCommentInput
-                      const xmlns="http://www.w3.org/2000/svg"
-                      const className="h-6 w-6"
-                      const fill="none"
-                      const viewBox="0 0 24 24"
-                      const stroke="currentColor"
-                      const strokeLinecap="round"
-                      const strokeLinejoin="round"
-                      const strokeWidth={2}
-                      const d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                      />
-                    <ModalCommentDisplay
-                      const xmlns="http://www.w3.org/2000/svg"
-                      const className="h-6 w-6 ml-5"
-                      const style={{ color: "#f00a00" }}
-                      const fill="none"
-                      const viewBox="0 0 24 24"
-                      const stroke="currentColor"
-                      const strokeLinecap="round"
-                      const strokeLinejoin="round"
-                      const strokeWidth={2}
-                      const d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                      />
-                  </div>
-                  <p className="text-xs pt-2">22いいね 8いきたい 1コメント</p>
-                  <div className="flex items-center justify-center">
-                    <p>評価：また行きたい</p>
-                    <p className="pl-3 text-xl" style={{ color: "#f00a00" }}>
-                      ★★★★☆
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <p className="w-full text-xs">＠銀座　かつ吉</p>
-              <p className="w-full p-2">
-                三元豚の分厚いヒレカツを、カツ丼でいただきました♪
-                お肉が柔らかく、薄味の出汁によく合います。豚汁も嬉しい。
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section id="section1" className="section section1 relative">
-          <div className="relative text-white">
-            <div className="absolute">
-              <video
-                autoPlay
-                className="overflow-hidden"
-                width="414"
-                height="10"
-                muted
-                objectfit="true"
-                playsInline
-                loop
-                src={require("../../public/IMG_257482075.mp4")}
-              ></video>
-            </div>
-            <div className="absolute p-1 w-full  bg-gray-900 bg-opacity-50">
-              <div className="flex items-center justify-start px-2">
-                <Image
-                  src={icon4}
-                  alt=""
-                  className="object-cover rounded-full flex items-center justify-center"
-                  width="60"
-                  height="60"
-                />
-                <div className="pl-2 flex flex-col">
-                  <p className="font-bold font-lg">斎藤理恵</p>
-                  <div className="flex">
-                    <button
-                      className="hover:bg-yellow-700 font-bold p-1 text-xs rounded mt-2"
-                      style={{
-                        background: "#f00a00",
-                        border: "2px solid #f00a00",
-                      }}
-                    >
-                      フォロー中
-                    </button>
-                  </div>
-                </div>
-                <div className="flex flex-col items-center ml-5">
-                  <div className="flex">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-red-500 mr-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      />
-                    </svg>
-                    <ModalCommentInput
-                      const xmlns="http://www.w3.org/2000/svg"
-                      const className="h-6 w-6"
-                      const fill="none"
-                      const viewBox="0 0 24 24"
-                      const stroke="currentColor"
-                      const strokeLinecap="round"
-                      const strokeLinejoin="round"
-                      const strokeWidth={2}
-                      const d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                    />
-                    <ModalCommentDisplay
-                      const xmlns="http://www.w3.org/2000/svg"
-                      const className="h-6 w-6 ml-5"
-                      const style={{ color: "#f00a00" }}
-                      const fill="none"
-                      const viewBox="0 0 24 24"
-                      const stroke="currentColor"
-                      const strokeLinecap="round"
-                      const strokeLinejoin="round"
-                      const strokeWidth={2}
-                      const d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                    />
-                  </div>
-                  <p className="text-xs pt-2">50いいね 39いきたい 12コメント</p>
-                  <div className="flex items-center justify-center">
-                    <p>評価：また行きたい</p>
-                    <p className="pl-1 text-xl" style={{ color: "#f00a00" }}>
-                      ★★★★☆
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <p className="w-full text-xs">@＠青山　寿司くどう</p>
-              <p className="w-full p-2">
-                気さくな大将と豊富な日本酒で、つまみと握りが次々と出てきます。
-                締めの太巻きが絶品です。
-              </p>
-            </div>
-   
-          </div>
-        </section> */}
       </div>
     </Layout>
   );
