@@ -1,7 +1,8 @@
 import Modal from 'react-modal';
 import { useEffect, useState } from 'react';
-import { doc, setDoc, query, collection, getDocs, getDoc } from "firebase/firestore";
+import { doc, addDoc, setDoc, query, collection, getDocs, getDoc } from "firebase/firestore";
 import { auth, db } from "../../src/firebase";
+import { reload } from '@firebase/auth';
 
 // Modalのスタイリング
 const customStyles = {
@@ -30,55 +31,47 @@ const customStyles = {
 // アプリのルートを識別するクエリセレクタを指定する。
 Modal.setAppElement('#__next')
 
-const ModalComment = ({ postid, xmlns, className, style, fill, viewBox, stroke, strokeLinecap, strokeLinejoin, strokeWidth, d }) => {
+const ModalComment = ({ docId, xmlns, className, style, fill, viewBox, stroke, strokeLinecap, strokeLinejoin, strokeWidth, d }) => {
 
   //firebaseから投稿に対するコメントを取得////////////////////
   const[commentText, setCommentText]= useState(new Array());
+  const[docid, setDocid] = useState();
+
   const displayCommentText = async (e) => {
    
+    setDocid(docId);
+
     try {
-      const q = query(collection(db, "posts", postid, "comments"));
+      const q = query(collection(db, "posts", docId, "comments"));
       const querySnapshot = await getDocs(q);
       let cnt = 0;
       const values = new Array();
       querySnapshot.forEach((doc)=>{
-        // console.log("posts:", postid,"userid:",doc.id,"doc:", doc.data().commentText);
         values[cnt] = 
         {
-          userid: String(doc.id),
+          timestamp: doc.id,
+          userid: String(doc.data().userId),
           commentText: doc.data().commentText,
         }
         ++cnt
       });
 
       for(let i = 0; i < values.length; i++) {
-        const docRef = doc(db, "users", values[i].userid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          // console.log("Document data:", docSnap.data());
-          if (docSnap.data().name == ("")){
-            // values[i].name = "登録名なし";
-          }else {
-            values[i].name = docSnap.data().name;
-          }
+        const str = values[i].userid.trim();
+        const userDoc = doc(db, "users", str );
+        const docSnap = await getDoc(userDoc);
 
-          if (docSnap.data().imageUrl == ("")){
-            // values[i].imageUrl = "https://firebasestorage.googleapis.com/v0/b/meshiran-2d6e1.appspot.com/o/profileImages%2Fdefault%2FPortrait_Placeholder.png?alt=media&token=33d52844-d72e-44e0-b9f5-0bd80a62e8de";
-          } else {
-            values[i].imageUrl = docSnap.data().imageUrl;
-          }
-          // console.log("values[i]", values[i]);
-          setCommentText(values);
-          // console.log("values:",values,"commentText:",commentText);
+        if (docSnap.exists()) {
+          values[i].name = docSnap.data().name;
+          values[i].imageUrl = docSnap.data().imageUrl;
+          const sortArray = [...values].sort((a, b) => b.timestamp - a.timestamp);
+          // const copy =  [...sortArray];
+          setCommentText(sortArray);
         } else {
           // doc.data() will be undefined in this case
-          // values[i].name = "登録名なし"
-          // values[i].imageUrl = "https://firebasestorage.googleapis.com/v0/b/meshiran-2d6e1.appspot.com/o/profileImages%2Fdefault%2FPortrait_Placeholder.png?alt=media&token=33d52844-d72e-44e0-b9f5-0bd80a62e8de";
-          console.log("No such document!",values);
+          console.log("No such document!", e);
         }
-      }
-
-      
+      } 
     } catch (e) {
       console.error("Error document: ", e);
     }
@@ -90,12 +83,15 @@ const ModalComment = ({ postid, xmlns, className, style, fill, viewBox, stroke, 
   const update = async (e) => {
     e.preventDefault();
 
-    const userId = auth.currentUser.uid;
-    console.log("userId:",userId,"postId:",postid);
+    let date = new Date();
+    let res = [date.getFullYear()]+[1+date.getMonth()]+[date.getDate()]+[date.getHours()]+[date.getMinutes()]+[date.getSeconds()];
 
     try {
-      const docData = { commentText: comments };
-      await setDoc(doc(db, "posts", postid, "comments", userId), docData );
+      const docData = { 
+        commentText: comments,
+        userId: auth.currentUser.uid,
+      };
+      await setDoc(doc(db, "posts", docid, "comments", res), docData );
       displayCommentText();
     } catch (e) {
       console.error("Error document: ", e);
@@ -108,11 +104,12 @@ const ModalComment = ({ postid, xmlns, className, style, fill, viewBox, stroke, 
 
   // モーダルを開く処理
   const openModal = () => {
-    setIsOpen(true)
+    setIsOpen(true);
   }
 
   const afterOpenModal = () => {
     // モーダルが開いた後の処理
+    
   }
 
   // モーダルを閉じる処理
@@ -177,11 +174,9 @@ const ModalComment = ({ postid, xmlns, className, style, fill, viewBox, stroke, 
             </form>
           </header>
 
-          <button onClick={closeModal}></button>
-
           {commentText.map((datas)=>(
             <>
-            <section className="flex justify-start px-2"> 
+            <section className="flex justify-start mt-5 px-2"> 
               <img
                 src={datas.imageUrl}
                 alt=""
