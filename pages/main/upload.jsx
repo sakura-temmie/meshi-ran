@@ -66,8 +66,9 @@ const Upload = () => {
     console.log("3=======================");
 
     try {
-      const docRef = await setDoc(doc(db, "users", userId), {
+      await setDoc(collection(db, "posts", ), {
         store: store,
+        like: [],
         area: area,
         category: category,
         url: url,
