@@ -36,7 +36,17 @@ const Upload = () => {
     console.log(store, area, category, url, comments, lank, evaluation);
 
     const storage = getStorage();
-    const storageRef = ref(storage, "movies/01");
+
+    //文字列変換
+    const movName = mov.name;
+    const movNameLength = movName.length;
+    const arrayMovName = [...movName];
+    const cutMovName = arrayMovName.splice(0, movNameLength - 3);
+    const fixMovName = cutMovName.push("mp4");
+    const fixedMovName = cutMovName.join('');
+    console.log(fixedMovName);
+
+    const storageRef = ref(storage, `movies/${fixedMovName}`);
     console.log(mov);
     console.log("1=======================");
     uploadBytes(storageRef, mov).then((snapshot) => {

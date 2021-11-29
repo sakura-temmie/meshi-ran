@@ -8,6 +8,7 @@ export default function Layout({ children, title }) {
     <div className="flex font-sans justify-center w-full item-center flex-col min-h-screen text-gray-600 text-sm font-mono relative">
       <Head>
         {/* プロップスで渡された値を動的に受け取る */}
+        <meta httpEquiv="origin-trial" content="token" />
         <title>{title}</title>
       </Head>
       <body className="flex flex-col min-h-screen w-full">
@@ -27,19 +28,19 @@ export default function Layout({ children, title }) {
           <Link href="/main" passHref>
             <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-8 w-8" fill="none" 
-            viewBox="0 0 24 24" 
+            className="h-8 w-8" fill="none"
+            viewBox="0 0 24 24"
             stroke="currentColor"
             >
-              <path 
-              stroke-linecap="round" 
-              stroke-linejoin="round" 
-              stroke-width="2" 
+              <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-              <path 
-              stroke-linecap="round" 
-              stroke-linejoin="round" 
-              stroke-width="2" 
+              <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </Link>
