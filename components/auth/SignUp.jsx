@@ -4,6 +4,8 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
   signInWithRedirect,
+  getAuth,
+  getRedirectResult,
 } from "firebase/auth";
 import { auth } from "../../src/firebase";
 import { useRouter } from "next/router";
@@ -37,7 +39,8 @@ const SignUp = () => {
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
+    signInWithRedirect(auth, provider);
+    getRedirectResult(auth)
       .then((res) => {
         router.push("/main");
       })
