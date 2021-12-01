@@ -77,23 +77,24 @@ export default function MainIndex() {
         setLikeIconState(true);
       }
 
+      const posts_copy = posts.slice();
       posts.map((doc, index) =>{
-        const likeArray = new Array();
-        const posts_copy = posts.slice();
-
-        for (let lCnt=0; lCnt < doc.likes.length; lCnt++){
-          const compA = String(doc.likes[lCnt]).trim();
-          likeArray.push( compA );
-
-          if ( String(doc.id).trim() == String(postDocId).trim() ) {
-            if (!isLikeIconState){  // ONの時だけ値を入れる
-              const compB = String(loginUserId).trim();
-              likeArray.push( compB );
-          }}
-          posts_copy[index].likes[lCnt] = likeArray;
+        if ( String(doc.id).trim() == String(postDocId).trim() ) {
+          const str = String(loginUserId).trim();
+          if (isWantIconState){
+            // loginUserIdを削除
+            const delIndex = posts_copy[index].likes.indexOf(str);
+            posts_copy[index].likes.splice(delIndex,1);
+          }
+          else {
+            // loginUserIdを追加
+            posts_copy[index].likes.push(str);
+          }
         }
-        setPosts(posts_copy);     
       })
+
+      setPosts(posts_copy);
+
     } catch {
       console.log("Error document:");
     }
@@ -105,31 +106,35 @@ export default function MainIndex() {
       const userDocRef = doc(db, "users", loginUserId);
       const wantDocRef = doc(db, "posts", postDocId);
       if (isWantIconState){
+        // console.log("delete");
         await updateDoc(wantDocRef, {"wants": arrayRemove(loginUserId)});
         await updateDoc(userDocRef, {"bookmarkedPostDocId": arrayRemove(postDocId)});
         setWantIconState(false);
       } else {
+        // console.log("add");
         await updateDoc(wantDocRef, {"wants": arrayUnion(loginUserId)});
         await updateDoc(userDocRef, {"bookmarkedPostDocId": arrayUnion(postDocId)});
         setWantIconState(true);
       }
 
+      const posts_copy = posts.slice();
       posts.map((doc, index) =>{
-        const wantArray = new Array();
-        const posts_copy = posts.slice();
-
-        for (let lCnt=0; lCnt < doc.wants.length; lCnt++){
-          const compA = String(doc.wants[lCnt]).trim();
-          wantArray.push( compA );
-          if ( String(doc.id).trim() == String(postDocId).trim() ) {
-            if (!isWantIconState){
-              const compB = String(loginUserId).trim();
-              wantArray.push( compB );
-          }}
-          posts_copy[index].wants[lCnt] = wantArray;
+        if ( String(doc.id).trim() == String(postDocId).trim() ) {
+          const str = String(loginUserId).trim();
+          if (isWantIconState){
+            // loginUserIdを削除
+            const delIndex = posts_copy[index].wants.indexOf(str);
+            posts_copy[index].wants.splice(delIndex,1);
+          }
+          else {
+            // loginUserIdを追加
+            posts_copy[index].wants.push(str);
+          }
         }
-        setPosts(posts_copy);     
       })
+
+      setPosts(posts_copy);
+      
     } catch {
       console.log("Error document:");
     }
@@ -144,6 +149,7 @@ export default function MainIndex() {
       let cnt = 0;
       const values = new Array();
       querySnapshot.forEach((doc) =>{
+        console.log("doc:",doc.data());
         values[cnt] = 
         {
           id: String(doc.id),
@@ -158,7 +164,7 @@ export default function MainIndex() {
         }
         ++cnt
       })
-
+      
       // Firebase から posts のコレクションデータ(comments)を取得する
       // 投稿に対するコメントの総数といいね総数といきたい総数
       for(let i = 0; i < values.length; i++) {
@@ -226,7 +232,8 @@ export default function MainIndex() {
             userRegion: "",
           }]
         );
-        
+        setUsers(copy_users);
+
         const docRef = await setDoc(doc(db, "users", docId), {
           docId: docId,
           birthday: "",
@@ -239,8 +246,8 @@ export default function MainIndex() {
           userCountry: "",
           userPrefecture: "",
           userRegion: "",
-        })
-        setUsers(copy_users);
+        });
+
       }
 
     } catch (e) {

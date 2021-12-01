@@ -60,7 +60,7 @@ const top = () => {
     if (docSnap.exists()) {
       const ary = docSnap.data().bookmarkedPostDocId;
       const copy_videoUrl = new Array();
-
+      console.log("docSnap.data()",docSnap.data());
       if ( ary.length > 0 ){
         for (let i=0; i < ary.length; i++ ){
           const postsDocRef = doc(db, "posts", ary[i]);
@@ -83,7 +83,7 @@ const top = () => {
     }
   }, []);
 
-  // console.log("videoUrl:",videoUrl)
+  console.log("videoUrl:",videoUrl)
 
   return (
     <Layout title="鈴木拓也さんのメシラン">

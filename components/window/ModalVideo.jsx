@@ -1,8 +1,6 @@
 import Modal from 'react-modal';
 import { useEffect, useState } from 'react';
-import { doc, addDoc, setDoc, query, collection, getDocs, getDoc } from "firebase/firestore";
-import { auth, db } from "../../src/firebase";
-import { reload } from '@firebase/auth';
+import i_01 from "../../public/01.jpeg";
 
 // Modalのスタイリング
 const customStyles = {
@@ -61,9 +59,7 @@ const ModalVideo = ({ url, index }) => {
   
     return (
       <>
-        <button onClick={openModal}>
-            <video src={url} alt={index} />
-        </button>
+        <video src={url} playsinline onClick={openModal}/>
         
         <Modal
           // isOpenがtrueならモダールが起動する
@@ -75,7 +71,7 @@ const ModalVideo = ({ url, index }) => {
           // スタイリングを定義
           style={customStyles}
         >
-            <video src={url} alt={index} width="270" height="480" controls muted playsInline/>
+          <video src={url} alt={index} width="270" height="480" controls autoplay="" loop="" muted playsinline/>
         </Modal>
       </>
     )
