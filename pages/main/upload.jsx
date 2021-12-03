@@ -150,6 +150,7 @@ const Upload = () => {
           <div>
             <input
               type="file"
+              accept="video/*"
               hidden
               ref={inputRef}
               onChange={(e) => {
