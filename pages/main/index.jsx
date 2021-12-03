@@ -85,10 +85,10 @@ export default function MainIndex() {
       const likeDocRef = doc(db, "posts", postDocId);
       if (isLikeIconState[postDocId]){
         await updateDoc(likeDocRef, {"likes": arrayRemove(loginUserId)});
-        setLikeIconState(false);
+        
       } else {
         await updateDoc(likeDocRef, {"likes": arrayUnion(loginUserId)});
-        setLikeIconState(true);
+        
       }
 
       const copy_likeState = isLikeIconState;
@@ -130,12 +130,12 @@ export default function MainIndex() {
         
         await updateDoc(wantDocRef, {"wants": arrayRemove(loginUserId)});
         await updateDoc(userDocRef, {"bookmarkedPostDocId": arrayRemove(postDocId)});
-        setWantIconState(false);
+        
       } else {
         
         await updateDoc(wantDocRef, {"wants": arrayUnion(loginUserId)});
         await updateDoc(userDocRef, {"bookmarkedPostDocId": arrayUnion(postDocId)});
-        setWantIconState(true);
+        
       }
 
       const copy_wantState = isWantIconState;
@@ -252,7 +252,7 @@ export default function MainIndex() {
           likeState[doc.id] = false;
           if (doc.data().likes.length>0){
             for (let i=0; i < doc.data().likes.length; i++){
-             if ( doc.data().likes[i] == docId ) likeState[docId] = true;
+             if ( doc.data().likes[i] == docId ) likeState[doc.id] = true;
             } 
           }
         });
