@@ -59,7 +59,7 @@ const ModalVideo = ({ url, index }) => {
   
     return (
       <>
-        <video src={url} playsinline onClick={openModal}/>
+        <video src={url} playsinline="" onClick={openModal}/>
         
         <Modal
           // isOpenがtrueならモダールが起動する
@@ -71,7 +71,7 @@ const ModalVideo = ({ url, index }) => {
           // スタイリングを定義
           style={customStyles}
         >
-          <video src={url} alt={index} width="270" height="480" controls autoplay="" loop="" muted playsinline/>
+          <video src={url} alt={index} width="270" height="480" controls autoplay="" loop="" muted playsinline="" />
         </Modal>
       </>
     )
