@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const top = () => {
   const classes = useStyles();
+  const [tittle, setTittle] = useState("");
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [videoUrl, setVideoUrl] = useState([]);
@@ -69,6 +70,8 @@ const top = () => {
         }
         setVideoUrl(copy_videoUrl);
       }
+
+      setTittle(userName + "のメシラン");
       setName(userName);
       setImageUrl(imageUrl);
     } else {
@@ -86,7 +89,7 @@ const top = () => {
   console.log("videoUrl:",videoUrl)
 
   return (
-    <Layout title="鈴木拓也さんのメシラン">
+    <Layout title={tittle}>
       <div className="flex items-center  px-5 bg-white mt-2">
         <img
           src={imageUrl}
@@ -105,7 +108,17 @@ const top = () => {
           お気に入り
         </li>
       </ul>
- 
+      
+      {/* <div className="flex ">
+        <video
+          autoplay="" muted playsinline
+          src={require("../../public/kz3zu-jc3v1.mp4")}
+          width="150"
+          height="150"
+          className="w-1/3 object-cover object-center"
+        />
+      </div> */}
+
       <div className={classes.root}>
       <ImageList rowHeight={160} className={classes.imageList} cols={3}>  
         {videoUrl.map((item,index) => (
@@ -114,7 +127,8 @@ const top = () => {
           </ImageListItem>
         ))}
       </ImageList>
-      </div>      
+      </div>
+      
     </Layout>
   );
 };
