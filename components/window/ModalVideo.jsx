@@ -59,7 +59,16 @@ const ModalVideo = ({ url, index }) => {
   
     return (
       <>
-        <video src={url} playsinline="" onClick={openModal}/>
+        <video
+          preload="auto"
+          className="overflow-hidden"
+          muted
+          playsInline
+          objectfit="true"
+          src={url}
+          onClick={openModal}
+        ></video>
+        {/* <video src={url} playsinline="" onClick={openModal}/> */}
         
         <Modal
           // isOpenがtrueならモダールが起動する
@@ -71,7 +80,19 @@ const ModalVideo = ({ url, index }) => {
           // スタイリングを定義
           style={customStyles}
         >
-          <video src={url} alt={index} width="270" height="480" controls autoplay="" loop="" muted playsinline="" />
+          <video
+            autoPlay
+            className="overflow-hidden"
+            width="270"
+            height="480"
+            muted
+            playsInline
+            objectfit="true"
+            loop
+            src={url}
+          ></video>
+
+          {/* <video src={url} alt={index} width="270" height="480" controls autoplay="" loop="" muted playsinline="" /> */}
         </Modal>
       </>
     )
