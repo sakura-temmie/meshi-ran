@@ -1,5 +1,5 @@
 import Layout from "../../components/layout/Layout";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   getStorage,
   ref,
@@ -7,13 +7,8 @@ import {
   uploadBytes,
   uploadBytesResumable,
 } from "firebase/storage";
-import {
-  collection,
-  doc,
-  setDoc,
-  Timestamp,
-} from "firebase/firestore";
-import { getAuth, } from "firebase/auth";
+import { collection, doc, setDoc, Timestamp } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { auth, db } from "../../src/firebase";
 import swal from "sweetalert";
@@ -22,11 +17,11 @@ import Category from "../../components/upload/Category";
 import Input from "../../components/upload/Input";
 import TextArea from "../../components/upload/TextArea";
 import Lanks from "../../components/upload/Lanks";
+import Canvas from "../../components/upload/Canvas";
 
 const Upload = () => {
   const router = useRouter();
-
-  const [mov, setMov] = useState("");
+  const [mov, setMov] = useState(null);
   const [movieUrl, setMovieUrl] = useState("");
   const [datetime, setDatetime] = useState("");
   const [restaurantName, setRestaurantName] = useState("");
@@ -114,8 +109,14 @@ const Upload = () => {
         });
       }
     );
-
   };
+
+  const isFileUpload = mov == null;
+
+  // const getImage = () => {
+  //   let canvas = document.getElementById("c");
+  //   canvas.getContext("2d").drawImage(nameRef2.current, 0, 0, 480, 270);
+  // };
 
   // const uploadImage = () => {
   //   const storage = getStorage();
@@ -138,49 +139,51 @@ const Upload = () => {
   return (
     <Layout title="メシラン投稿">
       <form onSubmit={update}>
-        <div className="flex items-center justify-between mt-2 px-3">
-          <div
-            className="w-20 h-20 text-center align-middle pt-5 text-white text-bold"
-            style={{ background: "#f00a00" }}
-          >
-            動画を
-            <br />
-            アップ
-          </div>
-          <div>
-            <input
-              type="file"
-              accept="video/*"
-              hidden
-              ref={inputRef}
-              onChange={(e) => {
-                setMov(e.target.files[0]);
-              }}
-            />
-            <input
-              type="file"
-              name="video"
-              accept="video/*"
-              capture="environment"
-              hidden
-            />
-          </div>
-          <div className="flex flex-col items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-20 w-20"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              onClick={fileUpload}
-            >
-              <path
-                fillRule="evenodd"
-                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span>動画をアップロードする</span>
-          </div>
+        <div className="flex items-center justify-center mt-2 px-3">
+          {isFileUpload ? (
+            <>
+              <div>
+                <input
+                  type="file"
+                  accept="video/*"
+                  hidden
+                  ref={inputRef}
+                  onChange={(e) => {
+                    setMov(e.target.files[0]);
+                  }}
+                />
+                <input
+                  type="file"
+                  name="video"
+                  accept="video/*"
+                  capture="environment"
+                  hidden
+                />
+              </div>
+              <div className="flex flex-col items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-20 w-20"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  onClick={fileUpload}
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>動画をアップロードする</span>
+              </div>
+            </>
+          ) : (
+            <div className="flex flex-col justify-center items-center">
+              <Canvas movieRef={mov} />
+              {/* <canvas width="130px" height="100px" onChange={getImage} /> */}
+              {/* <span className="">動画が</span> */}
+            </div>
+          )}
         </div>
         <div className="flex items-center flex-col mt-4">
           <Input title="店舗名" placeholder="必須" action={setRestaurantName} />
