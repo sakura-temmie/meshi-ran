@@ -108,16 +108,6 @@ const top = () => {
           お気に入り
         </li>
       </ul>
-      
-      {/* <div className="flex ">
-        <video
-          autoplay="" muted playsinline
-          src={require("../../public/kz3zu-jc3v1.mp4")}
-          width="150"
-          height="150"
-          className="w-1/3 object-cover object-center"
-        />
-      </div> */}
 
       <div className={classes.root}>
       <ImageList rowHeight={160} className={classes.imageList} cols={3}>  
