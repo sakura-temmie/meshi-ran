@@ -58,17 +58,16 @@ const ModalVideo = ({ url, index }) => {
 
   
     return (
-      <>
-        <video
-          preload="auto"
+      <> <video
+          autoPlay
           className="overflow-hidden"
           muted
           playsInline
           objectfit="true"
+          loop
           src={url}
           onClick={openModal}
         ></video>
-        {/* <video src={url} playsinline="" onClick={openModal}/> */}
         
         <Modal
           // isOpenがtrueならモダールが起動する
@@ -91,8 +90,6 @@ const ModalVideo = ({ url, index }) => {
             loop
             src={url}
           ></video>
-
-          {/* <video src={url} alt={index} width="270" height="480" controls autoplay="" loop="" muted playsinline="" /> */}
         </Modal>
       </>
     )
