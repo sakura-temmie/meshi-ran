@@ -181,7 +181,7 @@ const Upload = () => {
             <div className="flex flex-col justify-center items-center">
               <Canvas movieRef={mov} />
               {/* <canvas width="130px" height="100px" onChange={getImage} /> */}
-              {/* <span className="">動画が</span> */}
+              <span className="text-green-400">success！</span>
             </div>
           )}
         </div>
@@ -195,18 +195,18 @@ const Upload = () => {
           <div className="mb-4 w-3/4">
             <div className="flex w-full mt-5 justify-between">
               <button
-                className="text-lg hover:bg-red-700 text-white font-bold py-2 px-6 rounded"
+                className="text-lg hover:bg-red-700 text-white font-bold py-2 px-6 rounded w-full"
                 style={{ background: "#f00a00" }}
                 type="submit"
               >
                 投稿する
               </button>
-              <button
+              {/* <button
                 className="text-lg hover:bg-red-700 text-white font-bold py-2 px-6 rounded"
                 style={{ background: "#f00a00" }}
               >
                 下書き保存
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
