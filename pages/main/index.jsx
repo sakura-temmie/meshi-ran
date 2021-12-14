@@ -5,10 +5,12 @@ import ModalComment from "../../components/window/ModalComment";
 import { doc, collection, query, getDocs, getDoc, updateDoc, arrayUnion, arrayRemove, setDoc } from "firebase/firestore";
 import { db } from "../../src/firebase";
 import { async } from "@firebase/util";
+import { useRouter } from "next/router";
 
 export default function MainIndex() {
   const lanks = ["☆☆☆☆☆","★★★★★" ,"★★★★☆","★★★☆☆","★★☆☆☆","★☆☆☆☆","☆☆☆☆☆"];
 
+  const router = useRouter();
 
   const initialState = [{
     id: "",
@@ -178,7 +180,7 @@ export default function MainIndex() {
       let cnt = 0;
       const values = new Array();
       querySnapshot.forEach((doc) =>{
-        console.log("doc.data():",doc.data());
+        // console.log("doc.data():",doc.data());
         values[cnt] = 
         {
           id: String(doc.id),
@@ -333,6 +335,9 @@ export default function MainIndex() {
       const uid = user.uid;
       setLoginUserId(uid);
       registerFbUsers(uid,photoURL,displayName);
+    } else {
+      console.log("googleログインに失敗");
+      router.push("/");
     }
   };
 
